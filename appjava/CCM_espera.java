@@ -2,12 +2,9 @@ package appjava;
 
 public class CCM_espera {
     int max=100;
-    int ini;
-    int fin;
     CC_espera v[]=new CC_espera [max];
 
     public CCM_espera() {
-        ini=fin=0;
     }
     
     

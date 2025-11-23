@@ -22,7 +22,7 @@ public class main {
         ldce.adicionar(new Estudiante(9,"Luis", "Ramirez", "09-06-2005", "70901234"));
         ldce.adicionar(new Estudiante(10,"Elena", "Morales", "14-12-2004", "71012345"));
     }
-    public int contarlista(LDC_estudiantes ldce){
+    public int contarlistaEst(LDC_estudiantes ldce){
         int cont=0;
         if(ldce.getP()!=null){
             NodoEstudiante u=ldce.getP();
@@ -34,7 +34,7 @@ public class main {
         }
         return cont;
     }
-    public int contarlista(LDC_escuelaDeportiva ldce){
+    public int contarlistaEsc(LDC_escuelaDeportiva ldce){
         int cont=0;
         if(ldce.getP()!=null){
             NodoEscuelaDeportiva u=ldce.getP();
@@ -46,7 +46,7 @@ public class main {
         }
         return cont;
     }
-    public int contarlista(LDC_registro ldce){
+    public int contarlistaReg(LDC_registro ldce){
         int cont=0;
         if(ldce.getP()!=null){
             NodoEstudiante u=ldce.getP();
@@ -58,6 +58,60 @@ public class main {
         }
         return cont;
     }
+    
+    public void eliminarEst(int idEst, LDC_estudiantes ldce){
+        Estudiante est=buscarEstudiante(idEst, ldce);
+        if(est!=null){
+           NodoEstudiante nre = ldce.getP();
+           while(nre.getSig()!=ldce.getP()){
+            if(nre.getEstudiante().getIdEst()==idEst){
+                nre.getAnt().setSig(nre.getSig());
+                nre.getSig().setAnt(nre.getAnt());
+                if(nre==ldce.getP()){
+                    ldce.setP(nre.getSig());
+                }
+                break;
+            }
+            nre=nre.getSig();
+           }
+        }
+    }
+    public void eliminarEsc(int idEsc, LDC_escuelaDeportiva ldced){
+        EscuelaDeportiva esc=buscarEscuela(idEsc, ldced);
+        if(esc!=null){
+           NodoEscuelaDeportiva nre = ldced.getP();
+           while(nre.getSig()!=ldced.getP()){
+            if(nre.getEscuela().getIdEsc()==idEsc){
+                nre.getAnt().setSig(nre.getSig());
+                nre.getSig().setAnt(nre.getAnt());
+                if(nre==ldced.getP()){
+                    ldced.setP(nre.getSig());
+                }
+                break;
+            }
+            nre=nre.getSig();
+           }
+        }
+    }
+    public void eliminarReg(int idEst, LDC_registro ldcr){
+        Estudiante est=buscarEstudianteReg(idEst, ldcr);
+        if(est!=null){
+           NodoEstudiante nre = ldcr.getP();
+           while(nre.getSig()!=ldcr.getP()){
+            if(nre.getEstudiante().getIdEst()==idEst){
+                nre.getAnt().setSig(nre.getSig());
+                nre.getSig().setAnt(nre.getAnt());
+                if(nre==ldcr.getP()){
+                    ldcr.setP(nre.getSig());
+                }
+                break;
+            }
+            nre=nre.getSig();
+           }
+        }
+    }
+    
+    
     
     Estudiante buscarEstudiante(int idEst, LDC_estudiantes ldce){
         if(ldce.getP()!=null){
@@ -89,15 +143,34 @@ public class main {
         }
         return null;
     }   
-    
+    Estudiante buscarEstudianteReg(int idEst, LDC_registro ldcr){
+        if(ldcr.getP()!=null){
+            NodoEstudiante u=ldcr.getP();
+            while(u.getSig()!=ldcr.getP()){
+                if(u.getEstudiante().getIdEst()==idEst){
+                    return u.getEstudiante();
+                }
+                u=u.getSig();
+            }
+            if(u.getEstudiante().getIdEst()==idEst){
+                return u.getEstudiante();
+            }
+        }
+        return null;
+    }
+
     public void adicionarEstudiante(String nombre, String apellido, String fechaNac, String telefono, LDC_estudiantes ldce){
-        int idEst=contarlista(ldce)+1;
+        int idEst=contarlistaEst(ldce)+1;
         ldce.adicionar(new Estudiante(idEst, nombre, apellido, fechaNac, telefono));
     }
     public void adicionarEscuela(String nombre, int cupo, String horario, String descripcion, String instructor, LDC_escuelaDeportiva ldced){
-        int idEsc=contarlista(ldced)+1;
+        int idEsc=contarlistaEsc(ldced)+1;
         ldced.adicionar(new EscuelaDeportiva(idEsc, nombre, cupo, horario, descripcion, instructor));
     }
+    public void adicionarRegistro(Estudiante est, LDC_registro ldcr){
+        ldcr.adicionar(est);
+    }
+    
     
     public void actualizarEstudiante(int idEst, int idEsc, LDC_estudiantes ldce, LDC_escuelaDeportiva ldced){
         Estudiante est=buscarEstudiante(idEst, ldce);
@@ -114,4 +187,11 @@ public class main {
             ldcr.adicionar(est);
         }
     }
+    public void desinscribir(int idEst, int idEsc, LDC_registro ldcr, LDC_estudiantes ldce, LDC_escuelaDeportiva ldced){
+        Estudiante est=buscarEstudiante(idEst, ldce);
+        EscuelaDeportiva esc=buscarEscuela(idEsc, ldced);
+        if(est!=null&&esc!=null){
+            
+        }
+    } 
 }
