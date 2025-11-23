@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportAdmin - Gestión de Estructuras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fas fa-running"></i> Sport<span class="brand-highlight">Admin</span>
+            </div>
+            
+            <div class="widget school-navigator-widget">
+                <div class="widget-header">
+                    <h3><i class="fas fa-sitemap"></i> LDC_EscuelaDep</h3>
+                    <span class="badge">Lista Circular</span>
+                </div>
+                
+                <div class="nav-controls">
+                    <button onclick="navEscuela('ant')" class="btn-circle btn-outline"><i class="fas fa-chevron-left"></i></button>
+                    <h4 id="current-school-name">Cargando...</h4>
+                    <button onclick="navEscuela('sig')" class="btn-circle btn-outline"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                
+                <div class="school-details" id="school-metadata">
+                    <p class="meta-placeholder">Selecciona una escuela</p>
+                </div>
+            </div>
+
+            <div class="widget search-widget">
+                <h3><i class="fas fa-search"></i> Inspector de Estudiante</h3>
+                <p class="helper-text">Busca por ID para visualizar su Pila (Historial).</p>
+                <div class="input-group">
+                    <input type="text" id="search-id" placeholder="Ej: 101">
+                    <button onclick="buscarEstudiante()" class="btn-primary btn-icon"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            
+            <section class="structure-card list-section">
+                <header class="card-header header-green">
+                    <div>
+                        <h2><i class="fas fa-users"></i> Estudiantes Activos</h2>
+                        <p class="subtitle">Estructura: LDC_Registro (Lista Doble Circular)</p>
+                    </div>
+                    <button onclick="modalInscribir()" class="btn-primary btn-sm"><i class="fas fa-plus fa-sm"></i> Nuevo Inscrito</button>
+                </header>
+                <div class="card-body list-track-container">
+                    <div class="list-visualizer" id="container-ldc"></div>
+                </div>
+            </section>
+
+            <div class="bottom-grid">
+                <section class="structure-card queue-section">
+                    <header class="card-header header-amber">
+                        <div>
+                            <h2><i class="fas fa-clock"></i> Cola de Espera</h2>
+                            <p class="subtitle">Estructura: CC_Espera (Solo IDs)</p>
+                        </div>
+                        <div class="header-actions">
+                            <button onclick="encolarManual()" class="btn-outline btn-sm" title="Encolar (Offer)"><i class="fas fa-arrow-down"></i> Encolar</button>
+                            <button onclick="desencolar()" class="btn-primary btn-sm" title="Atender (Poll)">Atender <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </header>
+                    <div class="card-body queue-track-container">
+                        <div class="queue-labels"><span>SALIDA (Frente)</span> <span>ENTRADA (Final)</span></div>
+                        <div class="queue-visualizer" id="container-cc"></div>
+                    </div>
+                </section>
+
+                <section class="structure-card stack-section">
+                    <header class="card-header header-indigo">
+                        <div>
+                            <h2><i class="fas fa-history"></i> Historial Personal</h2>
+                            <p class="subtitle">Estructura: PM_Historial (Pila LIFO) de: <strong id="stack-owner-name">...</strong></p>
+                        </div>
+                        <div class="header-actions">
+                            <button onclick="popHistorial()" class="btn-outline btn-sm icon-red" title="Pop (Deshacer)"><i class="fas fa-undo"></i> Pop</button>
+                            <button onclick="pushHistorial()" class="btn-primary btn-sm" title="Push (Nuevo Evento)"><i class="fas fa-arrow-up"></i> Push</button>
+                        </div>
+                    </header>
+                    <div class="card-body stack-container-body">
+                        <div class="stack-visualizer" id="container-pm">
+                            <div class="empty-state">Busca un estudiante para ver su pila</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal-box scale-in">
+            <div class="modal-header">
+                <h3 id="modal-title">Operación</h3>
+                <button onclick="cerrarModal()" class="btn-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modal-content" class="modal-body"></div>
+            <div class="modal-footer">
+                <button onclick="cerrarModal()" class="btn-text">Cancelar</button>
+                <button id="modal-confirm-btn" class="btn-primary">Confirmar Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
